@@ -17,14 +17,14 @@
 
 # Please finish this RISC-V V extension code.
 saxpy_rvv:
-    vsetvli a4, a0, e32, m8, ta,ma
-    #vle32.v 
-    #sub 
-    #slli 
-    #add 
-    #vle32.v
-    #vfmacc.vf
-    #vse32.v
-    #add 
-    bnez a0, saxpy_rvv
+    vsetvli a4, a0, e32, m8, ta, ma
+    vle32.v   v8, (a1)
+    sub     a0, a0, a4
+    slli    t4, a4, 2
+    add     a1, a1, t4
+    vle32.v   v16, (a2)
+    vfmacc.vf  v16, fa0, v8
+    vse32.v   v16, (a2)
+    add     a2, a2, t4
+    bnez    a0, saxpy_rvv
     ret
