@@ -10,10 +10,10 @@
 
 # Change the path for your environment.
 
-GCC_TOOLCHAIN_DIR := {Your_Dir}/riscv-gnu-toolchain_rvv-0.9.x
-SYSROOT_DIR := $(GCC_TOOLCHAIN_DIR)/riscv64-unknown-elf
+GCC_TOOLCHAIN_DIR := /home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x
+SYSROOT_DIR := /home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x/riscv64-unknown-elf
 
-CLANG := clang
+CLANG := ~/RISC/llvm-project/build/bin/clang
 SPIKE := spike
 PK := pk
 
@@ -27,4 +27,14 @@ run :
 	$(SPIKE) $(PK) -s $(target)
 
 clean :
-	rm -f $(target)
+	rm -f $(target) mtmtp mtmac
+
+mtp:
+	~/RISC/llvm-project/build/bin/clang  --target=riscv64-unknown-elf -menable-experimental-extensions -march=rv64gcv1p0 --sysroot=/home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x/riscv64-unknown-elf --gcc-toolchain=/home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x -o mtmtp mtmtp.c mtmtp.s
+	riscv64-unknown-elf-objdump -d mtmtp > mtmtp.dump
+	spike -d --isa=rv64gcv  /home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x/riscv64-unknown-elf/bin/pk -s mtmtp
+
+mac:
+	~/RISC/llvm-project/build/bin/clang  --target=riscv64-unknown-elf -menable-experimental-extensions -march=rv64gcv1p0 --sysroot=/home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x/riscv64-unknown-elf --gcc-toolchain=/home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x -o mtmac mtmac.c mtmac.s
+	riscv64-unknown-elf-objdump -d mtmac > mtmac.dump
+	spike -d --isa=rv64gcv  /home/littlelagi/RISC/riscv-gnu-toolchain_rvv-0.9.x/riscv64-unknown-elf/bin/pk -s mtmac
