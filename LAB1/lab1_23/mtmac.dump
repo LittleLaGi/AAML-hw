@@ -242,7 +242,7 @@ Disassembly of section .text:
    103ae:	8082                	ret
 
 00000000000103b0 <tensormul>:
-   103b0:	0d2572d7          	vsetvli	t0,a0,e128,m4,ta,ma,d1
+   103b0:	0d0572d7          	vsetvli	t0,a0,e128,m1,ta,ma,d1
    103b4:	0205e207          	vle32.v	v4,(a1)
    103b8:	40550533          	sub	a0,a0,t0
    103bc:	028a                	slli	t0,t0,0x2
